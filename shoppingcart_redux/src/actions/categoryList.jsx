@@ -1,5 +1,10 @@
-import api from "actions/api";
-import { ACTION_TYPES, baseUrl } from "actions/api";
+import api, { baseUrl } from "actions/api";
+export const ACTION_TYPES = {
+  CREATE: "CREATE",
+  UPDATE: "UPDATE",
+  DELETE: "DELETE",
+  FETCH_ALL: "FETCH_ALL",
+};
 
 const url = baseUrl + "Categories/";
 
@@ -9,7 +14,7 @@ export const fetchAll = () => (dispatch) => {
     .actions(url)
     .fetchAll()
     .then((response) => {
-      console.log(response);
+      console.log("categories", response);
       dispatch({
         type: ACTION_TYPES.FETCH_ALL,
         payload: response.data,

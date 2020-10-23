@@ -1,5 +1,11 @@
-import api from "actions/api";
-import { ACTION_TYPES, baseUrl } from "actions/api";
+import api, { baseUrl } from "actions/api";
+
+export const ACTION_TYPES = {
+  CREATE_PRODUCT: "CREATE_PRODUCT",
+  UPDATE_PRODUCT: "UPDATE_PRODUCT",
+  DELETE_PRODUCT: "DELETE_PRODUCT",
+  FETCH_ALL_PRODUCT: "FETCH_ALL_PRODUCT",
+};
 
 const url = baseUrl + "Products/";
 
@@ -18,9 +24,9 @@ export const fetchAll = () => (dispatch) => {
     .actions(url)
     .fetchAll()
     .then((response) => {
-      console.log(response);
+      console.log("products", response);
       dispatch({
-        type: ACTION_TYPES.FETCH_ALL,
+        type: ACTION_TYPES.FETCH_ALL_PRODUCT,
         payload: response.data,
       });
     })
@@ -35,7 +41,7 @@ export const create = (data, onSuccess) => (dispatch) => {
     .create(data)
     .then((res) => {
       dispatch({
-        type: ACTION_TYPES.CREATE,
+        type: ACTION_TYPES.CREATE_PRODUCT,
         payload: res.data,
       });
       onSuccess();
@@ -51,7 +57,7 @@ export const update = (id, data, onSuccess) => (dispatch) => {
     .update(id, data)
     .then((res) => {
       dispatch({
-        type: ACTION_TYPES.UPDATE,
+        type: ACTION_TYPES.UPDATE_PRODUCT,
         payload: { id, ...data },
       });
       onSuccess();
@@ -66,7 +72,7 @@ export const Delete = (id, onSuccess) => (dispatch) => {
     .delete(id)
     .then((res) => {
       dispatch({
-        type: ACTION_TYPES.DELETE,
+        type: ACTION_TYPES.DELETE_PRODUCT,
         payload: id,
       });
       onSuccess();

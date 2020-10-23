@@ -1,4 +1,4 @@
-import { ACTION_TYPES } from "actions/api";
+import { ACTION_TYPES } from "actions/categoryList";
 const initialState = {
   list: [],
 };

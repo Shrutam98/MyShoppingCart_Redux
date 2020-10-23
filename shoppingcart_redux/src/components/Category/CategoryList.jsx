@@ -12,8 +12,10 @@ import {
 import { Button } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import CategoryForm from "components/Category/CategoryForm";
+import { useToasts } from "react-toast-notifications";
 
 const CategoryList = (props) => {
+  const { addToast } = useToasts();
   const [currentId, setCurrentId] = useState(0);
 
   useEffect(() => {
@@ -21,7 +23,9 @@ const CategoryList = (props) => {
   }, []);
   const onDelete = (categoryId) => {
     if (window.confirm("Are you sure to delete this record?"))
-      props.deleteCategory(categoryId);
+      props.deleteCategory(categoryId, () =>
+        addToast("Category Deleted Successfully", { appearance: "info" })
+      );
   };
   return (
     <div className="border">
@@ -35,10 +39,10 @@ const CategoryList = (props) => {
             <hr />
             <TableContainer>
               <Table className="border">
-                <TableHead>
+                <TableHead className="tHeader">
                   <TableRow>
-                    <TableCell>Category</TableCell>
-                    <TableCell>Actions</TableCell>
+                    <TableCell className="text-light">Category</TableCell>
+                    <TableCell className="text-light">Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>

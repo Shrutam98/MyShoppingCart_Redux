@@ -15,7 +15,7 @@ import {
   Button,
 } from "@material-ui/core";
 import ProductForm from "./ProductForm";
-// import { useToasts } from "react-toast-notifications";
+import { useToasts } from "react-toast-notifications";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 const styles = (theme) => ({
@@ -31,7 +31,7 @@ const styles = (theme) => ({
 });
 
 const ProductList = ({ classes, ...props }) => {
-  //   const { addToast } = useToasts();
+  const { addToast } = useToasts();
   const [currentId, setCurrentId] = useState(0);
   useEffect(() => {
     props.fetchAllProducts();
@@ -39,7 +39,9 @@ const ProductList = ({ classes, ...props }) => {
 
   const onDelete = (productId) => {
     if (window.confirm("Are you sure to delete this record?"))
-      props.deleteProduct(productId);
+      props.deleteProduct(productId, () =>
+        addToast("Deleted Successfully", { appearance: "info" })
+      );
   };
   return (
     <div className="border">
@@ -53,15 +55,15 @@ const ProductList = ({ classes, ...props }) => {
             <hr></hr>
             <TableContainer>
               <Table>
-                <TableHead>
+                <TableHead className="tHeader">
                   <TableRow>
-                    <TableCell>Product</TableCell>
-                    <TableCell>Category</TableCell>
-                    <TableCell>Price</TableCell>
-                    <TableCell>Quantity</TableCell>
-                    <TableCell>Discount</TableCell>
-                    <TableCell>GST</TableCell>
-                    <TableCell>Actions</TableCell>
+                    <TableCell className="text-light">Product</TableCell>
+                    <TableCell className="text-light">Category</TableCell>
+                    <TableCell className="text-light">Price</TableCell>
+                    <TableCell className="text-light">Quantity</TableCell>
+                    <TableCell className="text-light">Discount</TableCell>
+                    <TableCell className="text-light">GST</TableCell>
+                    <TableCell className="text-light">Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>

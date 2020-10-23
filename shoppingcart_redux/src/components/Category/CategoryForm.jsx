@@ -2,15 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Form, Input, Button, Select } from "antd";
 import { connect } from "react-redux";
 import * as actions from "actions/categoryList";
+import { useToasts } from "react-toast-notifications";
 
 const initialFieldValues = {
   categoryName: "",
 };
 const CategoryForm = (props) => {
+  const { addToast } = useToasts();
   const [valuesForm, setValuesForm] = useState(initialFieldValues);
 
   useEffect(() => {
-    debugger;
     if (props.currentId != 0) {
       setValuesForm({
         ...props.categories.find((x) => x.categoryId == props.currentId),
@@ -31,11 +32,13 @@ const CategoryForm = (props) => {
     props.setCurrentId(0);
   };
   const onFinish = (values) => {
-    debugger;
     setValuesForm(values);
     console.log("Success:", values);
     if (props.currentId == 0) {
-      props.createCategory(values);
+      props.createCategory(
+        values,
+        addToast("Category Added Successfully", { appearance: "success" })
+      );
       onReset();
     } else props.updateCategory(props.currentId, values);
     onReset();

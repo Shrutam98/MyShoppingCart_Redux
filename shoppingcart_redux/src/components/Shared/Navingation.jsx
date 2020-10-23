@@ -11,10 +11,8 @@ import {
 } from "@ant-design/icons";
 
 const { Header, Content, Footer, Sider } = Layout;
-const SubMenu = Menu.SubMenu;
 const Navingation = () => {
   //   const [collapsed, setCollapsed] = useState(true);
-
   return (
     <div>
       <Router>

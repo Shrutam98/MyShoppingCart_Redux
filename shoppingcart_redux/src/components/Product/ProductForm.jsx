@@ -4,6 +4,7 @@ import * as actions from "actions/productList";
 import * as actionsCategory from "actions/categoryList";
 import { connect } from "react-redux";
 import { UploadOutlined } from "@ant-design/icons";
+import { useToasts } from "react-toast-notifications";
 
 const initialFieldValues = {
   productName: "",
@@ -17,8 +18,8 @@ const initialFieldValues = {
   imageFile: null,
 };
 const ProductForm = (props) => {
+  const { addToast } = useToasts();
   const [valuesForm, setValuesForm] = useState(initialFieldValues);
-  const [categoriesData, setCategoriesData] = useState([]);
   const [form] = Form.useForm();
   const layout = {
     labelCol: { span: 4 },
@@ -28,7 +29,6 @@ const ProductForm = (props) => {
     wrapperCol: { offset: 8, span: 16 },
   };
   const { Option } = Select;
-
   const normFile = (e) => {
     console.log("Upload event:", e);
     if (Array.isArray(e)) {
@@ -41,17 +41,15 @@ const ProductForm = (props) => {
     form.resetFields();
     props.setCurrentId(0);
   };
-  useEffect(() => {
-    const data = props.fetchAllCategories();
-    setCategoriesData(data);
-    console.log(categoriesData);
-  }, []);
+
   const onFinish = (values) => {
-    debugger;
     setValuesForm(values);
     console.log("Success:", values);
     if (props.currentId == 0) {
-      props.createProduct(values);
+      props.createProduct(
+        values,
+        addToast("Product Added Successfully", { appearance: "success" })
+      );
       onReset();
     } else props.updateProduct(props.currentId, values);
     onReset();
@@ -79,6 +77,7 @@ const ProductForm = (props) => {
           </Form.Item>
           <Form.Item name="categoryId" label="Category">
             <Select placeholder="----Select Category---" size="large">
+              <Option value="">----Select Category----</Option>
               {props.categories.map((item, index) => (
                 <Option key={index} value={item.categoryId}>
                   {item.categoryName}
@@ -121,7 +120,7 @@ const ProductForm = (props) => {
             getValueFromEvent={normFile}
             extra=""
           >
-            <Upload name="logo" action="/upload.do" listType="picture">
+            <Upload name="image" listType="picture">
               <Button
                 size="large"
                 style={{ width: "100%" }}
