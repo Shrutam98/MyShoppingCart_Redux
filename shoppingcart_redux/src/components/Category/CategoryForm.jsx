@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Form, Input, Button, Select } from "antd";
+import React, { useEffect } from "react";
+import { Form, Input, Button } from "antd";
 import { connect } from "react-redux";
 import * as actions from "actions/categoryList";
 import { useToasts } from "react-toast-notifications";
@@ -11,8 +11,6 @@ const initialFieldValues = {
 };
 const CategoryForm = (props) => {
   const { addToast } = useToasts();
-  const { Option } = Select;
-
   useEffect(() => {
     if (props.currentId !== 0) {
       setValues({

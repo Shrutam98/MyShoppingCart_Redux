@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Form, Input, Button, Select, Upload, InputNumber } from "antd";
+import React, { useEffect } from "react";
+import { Form, Input, Button, Select } from "antd";
 import * as actions from "actions/productList";
 import * as actionsCategory from "actions/categoryList";
 import { connect } from "react-redux";
-import { UploadOutlined } from "@ant-design/icons";
 import { useToasts } from "react-toast-notifications";
 import Common from "components/Shared/Common";
 
@@ -87,7 +86,6 @@ const ProductForm = (props) => {
       });
       setErrors({});
     }
-    console.log(data);
   }, [props.currentId]);
   const resetForm = () => {
     setValues({
@@ -106,7 +104,6 @@ const ProductForm = (props) => {
   dataForm.append("gst", values.gst);
   dataForm.append("image", values.image);
   dataForm.append("imageFile", values.imageFile);
-  console.log(dataForm);
   const handleSubmit = () => {
     if (validate()) {
       const onSuccess = () => {

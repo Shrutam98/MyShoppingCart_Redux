@@ -26,7 +26,6 @@ export const fetchAll = () => (dispatch) => {
 
 //Create
 export const create = (data, onSuccess) => (dispatch) => {
-  data = data;
   api
     .actions(url)
     .create(data)
@@ -42,7 +41,6 @@ export const create = (data, onSuccess) => (dispatch) => {
 
 //Update
 export const update = (id, data, onSuccess) => (dispatch) => {
-  data = data;
   api
     .actions(url)
     .update(id, data)
