@@ -2,33 +2,18 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import * as actions from "actions/productList";
 import {
-  Grid,
-  Paper,
   TableContainer,
   Table,
   TableHead,
   TableRow,
   TableCell,
   TableBody,
-  withStyles,
   ButtonGroup,
   Button,
 } from "@material-ui/core";
 import ProductForm from "./ProductForm";
 import { useToasts } from "react-toast-notifications";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-
-const styles = (theme) => ({
-  root: {
-    "& .MuiTableCell-head": {
-      fontSize: "1.25rem",
-    },
-  },
-  paper: {
-    margin: theme.spacing(2),
-    padding: theme.spacing(2),
-  },
-});
 
 const ProductList = ({ classes, ...props }) => {
   const { addToast } = useToasts();
@@ -40,7 +25,7 @@ const ProductList = ({ classes, ...props }) => {
   const onDelete = (productId) => {
     if (window.confirm("Are you sure to delete this record?"))
       props.deleteProduct(productId, () =>
-        addToast("Deleted Successfully", { appearance: "info" })
+        addToast("Product Deleted Successfully", { appearance: "info" })
       );
   };
   return (
@@ -76,6 +61,7 @@ const ProductList = ({ classes, ...props }) => {
                         <TableCell>{record.quantity}</TableCell>
                         <TableCell>{record.discount}</TableCell>
                         <TableCell>{record.gst}</TableCell>
+                        <TableCell>{record.image}</TableCell>
                         <TableCell>
                           <ButtonGroup variant="text">
                             <Button

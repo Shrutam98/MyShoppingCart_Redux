@@ -19,13 +19,13 @@ export const productList = (state = initialState, action) => {
       return {
         ...state,
         list: state.list.map((x) =>
-          x.productId == action.payload.id ? action.payload : x
+          x.productId === action.payload.id ? action.payload : x
         ),
       };
     case ACTION_TYPES.DELETE_PRODUCT:
       return {
         ...state,
-        list: state.list.filter((x) => x.productId != action.payload),
+        list: state.list.filter((x) => x.productId !== action.payload),
       };
 
     default:

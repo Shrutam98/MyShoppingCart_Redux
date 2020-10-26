@@ -19,13 +19,13 @@ export const categoryList = (state = initialState, action) => {
       return {
         ...state,
         list: state.list.map((x) =>
-          x.categoryId == action.payload.id ? action.payload : x
+          x.categoryId === action.payload.id ? action.payload : x
         ),
       };
     case ACTION_TYPES.DELETE:
       return {
         ...state,
-        list: state.list.filter((x) => x.categoryId != action.payload),
+        list: state.list.filter((x) => x.categoryId !== action.payload),
       };
     default:
       return state;

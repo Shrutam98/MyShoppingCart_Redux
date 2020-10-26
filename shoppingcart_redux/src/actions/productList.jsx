@@ -9,15 +9,6 @@ export const ACTION_TYPES = {
 
 const url = baseUrl + "Products/";
 
-const formatData = (data) => ({
-  ...data,
-  categoryId: parseInt(data.categoryId ? data.categoryId : 0),
-  price: parseFloat(data.price ? data.price : 0.0),
-  quantity: parseInt(data.quantity ? data.quantity : 0),
-  discount: parseFloat(data.discount ? data.discount : 0.0),
-  gst: parseFloat(data.gst ? data.gst : 0.0),
-});
-
 //Get
 export const fetchAll = () => (dispatch) => {
   api
@@ -35,7 +26,7 @@ export const fetchAll = () => (dispatch) => {
 
 //Create
 export const create = (data, onSuccess) => (dispatch) => {
-  data = formatData(data);
+  data = data;
   api
     .actions(url)
     .create(data)
@@ -51,7 +42,7 @@ export const create = (data, onSuccess) => (dispatch) => {
 
 //Update
 export const update = (id, data, onSuccess) => (dispatch) => {
-  data = formatData(data);
+  data = data;
   api
     .actions(url)
     .update(id, data)

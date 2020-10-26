@@ -3,23 +3,24 @@ import { Form, Input, Button, Select } from "antd";
 import { connect } from "react-redux";
 import * as actions from "actions/categoryList";
 import { useToasts } from "react-toast-notifications";
+import Common from "components/Shared/Common";
 
 const initialFieldValues = {
+  categoryId: 0,
   categoryName: "",
 };
 const CategoryForm = (props) => {
   const { addToast } = useToasts();
-  const [valuesForm, setValuesForm] = useState(initialFieldValues);
+  const { Option } = Select;
 
   useEffect(() => {
-    if (props.currentId != 0) {
-      setValuesForm({
-        ...props.categories.find((x) => x.categoryId == props.currentId),
+    if (props.currentId !== 0) {
+      setValues({
+        ...values,
+        ...props.categories.find((x) => x.categoryId === props.currentId),
       });
     }
   }, [props.currentId]);
-
-  const [form] = Form.useForm();
   const layout = {
     labelCol: { span: 4 },
     wrapperCol: { span: 16 },
@@ -27,24 +28,53 @@ const CategoryForm = (props) => {
   const tailLayout = {
     wrapperCol: { offset: 8, span: 16 },
   };
-  const onReset = () => {
-    form.resetFields();
+
+  //Validation
+  const validate = (fieldValues = values) => {
+    let temp = { ...errors };
+    if ("categoryName" in fieldValues)
+      temp.categoryName = fieldValues.categoryName
+        ? ""
+        : "This field is Required";
+    setErrors({
+      ...temp,
+    });
+    if (fieldValues === values)
+      return Object.values(temp).every((x) => x === "");
+  };
+  const { values, setValues, errors, setErrors, handleInputChange } = Common(
+    initialFieldValues,
+    validate
+  );
+  const resetForm = () => {
+    setValues({
+      ...initialFieldValues,
+    });
     props.setCurrentId(0);
+    setErrors({});
   };
-  const onFinish = (values) => {
-    setValuesForm(values);
-    console.log("Success:", values);
-    if (props.currentId == 0) {
-      props.createCategory(
-        values,
-        addToast("Category Added Successfully", { appearance: "success" })
-      );
-      onReset();
-    } else props.updateCategory(props.currentId, values);
-    onReset();
-  };
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+
+  const handleSubmit = () => {
+    debugger;
+    if (validate()) {
+      const onSuccess = () => {
+        resetForm();
+      };
+      if (props.currentId === 0) {
+        props.createCategory(
+          values,
+          onSuccess,
+          addToast("Category Added Successfully", { appearance: "success" })
+        );
+      } else {
+        props.updateCategory(
+          props.currentId,
+          values,
+          onSuccess,
+          addToast("Category Updated Successfully", { appearance: "success" })
+        );
+      }
+    }
   };
 
   return (
@@ -54,24 +84,29 @@ const CategoryForm = (props) => {
         <hr />
         <Form
           {...layout}
-          form={form}
-          name="control-hooks"
-          initialValues={initialFieldValues}
-          onFinish={onFinish}
+          onFinish={handleSubmit}
+          autoComplete="off"
           className="mt-4"
         >
-          <Form.Item
-            name="categoryName"
-            label="Category"
-            rules={[{ required: true }]}
-          >
-            <Input size="large" />
+          <Form.Item label="Category">
+            <Input
+              name="categoryName"
+              size="large"
+              value={values.categoryName}
+              onChange={handleInputChange}
+              className={!errors.categoryName ? "" : "border-danger"}
+            />
+            {!errors.categoryName ? (
+              ""
+            ) : (
+              <span className="text-danger">{errors.categoryName}</span>
+            )}
           </Form.Item>
           <Form.Item {...tailLayout}>
             <Button type="primary" htmlType="submit">
               Submit
             </Button>
-            <Button htmlType="button" onClick={onReset} className="ml-2">
+            <Button htmlType="button" onClick={resetForm} className="ml-2">
               Reset
             </Button>
           </Form.Item>
@@ -80,6 +115,7 @@ const CategoryForm = (props) => {
     </div>
   );
 };
+
 const mapStateToProps = (state) => ({
   categories: state.categoryList.list,
 });

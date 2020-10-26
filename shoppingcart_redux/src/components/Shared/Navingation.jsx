@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import { Layout, Menu, Icon } from "antd";
+import { Layout, Menu } from "antd";
 import CategoryList from "components/Category/CategoryList";
 import ProductList from "components/Product/ProductList";
 import Dashboard from "components/Shared/Dashboard";
@@ -12,7 +12,6 @@ import {
 
 const { Header, Content, Footer, Sider } = Layout;
 const Navingation = () => {
-  //   const [collapsed, setCollapsed] = useState(true);
   return (
     <div>
       <Router>
